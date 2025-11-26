@@ -1,0 +1,60 @@
+###############################################################################
+#   Copy this file to $HOME/.cshrc.aliases and edit to meet your needs
+###############################################################################
+#   Show path as a highlighted string, then the host you are on
+#set prompt="%S%/%s\n%m > "
+
+umask 022           # Setup umask to 002 to share data with others
+set ignoreeof           # Don't let eof (normally ctrl-D) exit the shell
+set noclobber           # Disable file deletion on I/O redirection
+set complete=enhance    # Ignore case and consider punctuation to be word separators
+set autolist        # Show remaining choices (if any) whenever completion fails
+set autocorrect     # Spelling-correct the word to be completed
+
+#   Aliases are "commands" which invoke programs with various options you like
+#   Change, remove or add to these as you'd like
+#   See the existing aliases with the command 'alias'
+#alias ls ls -F \!\*                   # Mark directories etc. in ls
+#alias la ls -lAF  \!\*                # Show sizes of ALL files
+
+#   Some xterms and options you might like
+#alias xterm "xterm -geometry 80x32 -sb +si -sk -sl 2500 -title `hostname` \!* &"
+#alias wterm "xterm -sb -sl 500 -title `hostname` -geometry 110x50 -fn -adobe-courier-medium-r-#normal--14-140-75-75-m-90-hp-roman8 &"
+
+#   Fantasia users have a broken xterm. Use this instead
+#alias xterm "rxvt -geometry 80x32 -sb +si -sk -sl 2500 -title `hostname` \!* &"
+
+#   Bring up TkCVS on my development files
+#alias tkcvs tkcvs -dir ~/dev \&
+
+if ( ! $?PRINTER ) then
+  setenv PRINTER 51
+endif
+
+alias lpr lpr -P$PRINTER -h \!\*
+#   Print file as two columns of data on one page
+#alias 2up a2ps --landscape -2 --sides=2 -Dlp.options="-o nobanner" -P$PRINTER --line-numbers=1  \!\*
+#alias 1up a2ps -1 --line-numbers=1  \!\*
+
+#alias n nedit -nowrap \!\* \&   # Nedit without wrapped lines
+#alias nw nedit \!\* \&          # Nedit with wrapped lines
+
+setenv GLOBUS_TCP_PORT_RANGE 50000,55000
+
+setenv PYTHONPATH /usr/cluster/lib/site_python
+
+#setenv GDFONTPATH /home/hmkang/lib/fonts/
+#setenv GNUPLOT_FONTPATH /home/hmkang/lib/fonts/
+#setenv GNUPLOT_TTFTOPFA "/home/hmkang/bin/ttf2pt1 -a -e -W 0 %s"
+
+setenv PERL5LIB /usr/cluster/lib/perl5/site_perl
+
+set path = (/usr/cluster/bin /net/dumbo/home/scaron/bin /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/games /usr/cluster/bin)
+
+alias sque squeue -a -o \"%.18i %.18P %.18j %.18q %.12n %.12Y %.20S %.8u %.8a %.8T %.12Q %.10M %.9l %.6D %R\"
+alias sqos sacctmgr show qos format=Name%16,Priority,UsageFactor,MaxTresPerAccount,MaxTresPerUser,MaxTresPerJob,MaxTresPerNode,MaxJobsPerAccount,GrpJobs,GrpSubmitJobs,MaxCPUSPerUser
+alias sd "sdiag|head -37"
+alias sshold "ssh -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group1-sha1 -c 3des-cbc "
+
+echo -n "\nDefined aliases: \e[1;36m" ; alias | cut -f 1 | tr '\n' ' ' ; echo "\e[0m\n"
+
